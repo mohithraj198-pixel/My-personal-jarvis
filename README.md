@@ -4,8 +4,8 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/AnubhavChaturvedi-GitHub/jarvis-ai-assistant?style=for-the-badge&color=yellow)](https://github.com/AnubhavChaturvedi-GitHub/jarvis-ai-assistant/stargazers)
-[![Forks](https://img.shields.io/github/forks/AnubhavChaturvedi-GitHub/jarvis-ai-assistant?style=for-the-badge&color=blue)](https://github.com/AnubhavChaturvedi-GitHub/jarvis-ai-assistant/network/members)
+[![Stars](https://img.shields.io/github/stars/mohithraj198-pixel/My-personal-jarvis?style=for-the-badge&color=yellow)](https://github.com/mohithraj198-pixel/My-personal-jarvis/stargazers)
+[![Forks](https://img.shields.io/github/forks/mohithraj198-pixel/My-personal-jarvis?style=for-the-badge&color=blue)](https://github.com/mohithraj198-pixel/My-personal-jarvis/network/members)
 
 ![J.A.R.V.I.S in action](https://github.com/user-attachments/assets/59727c15-d85a-41bc-b27d-bea08b3b3a41)
 
@@ -39,8 +39,8 @@ J.A.R.V.I.S (Just A Rather Very Intelligent System) is a Python voice assistant 
 ### Installation
 
 ```bash
-git clone https://github.com/AnubhavChaturvedi-GitHub/jarvis-ai-assistant.git
-cd jarvis-ai-assistant
+git clone https://github.com/mohithraj198-pixel/My-personal-jarvis.git
+cd My-personal-jarvis
 pip install -r requirements.txt
 ```
 
