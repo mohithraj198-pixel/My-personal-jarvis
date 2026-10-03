@@ -73,13 +73,14 @@ class JarvisUI(QWidget):
 
     def run_main_file(self):
         try:
+            import sys
             # Get the directory where ui.py is located
             current_directory = os.path.dirname(os.path.abspath(__file__))
 
-            # Specify the path to main.py based on the current directory
-            path_to_main_py = os.path.join(current_directory, r"C:\Users\chatu\OneDrive\Desktop\J.A.R.V.I.S\MAIN\main.py")
+            # Specify the path to jarvis.py based on the current directory
+            path_to_main_py = os.path.join(current_directory, "jarvis.py")
 
-            command = ["python", path_to_main_py]
+            command = [sys.executable, path_to_main_py]
             self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=current_directory)
 
             # Capture and display the output

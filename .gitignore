@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+*.mp3
+speech_temp*
+.vscode/

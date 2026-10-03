@@ -42,3 +42,4 @@ pillow
 pygame
 PyQt5
 nltk
+edge-tts
