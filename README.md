@@ -61,9 +61,9 @@ python ui.py
 Say the wake word, then speak naturally:
 
 - "What is the weather in Bangalore?"
-- "Open Chrome and search for transformer architecture"
+- "Open Microsoft edge and search for transformer architecture"
 - "Generate an image of a red sports car at sunset"
-- "Send a WhatsApp message to Rahul saying I am running late"
+- "Open whatsapp"
 - "What is happening in the news right now?"
 
 ## Project structure
@@ -97,9 +97,8 @@ Released under the [MIT License](LICENSE).
 
 ## Author
 
-**Anubhav Chaturvedi**, founder of [NetHyTech](https://www.youtube.com/@NetHyTech), a developer community of 30,000+ members.
+**Mohith** ([@mohithraj198-pixel](https://github.com/mohithraj198-pixel))
 
-[![YouTube](https://img.shields.io/badge/YouTube-NetHyTech-FF0000?style=flat-square&logo=youtube&logoColor=white)](https://www.youtube.com/@NetHyTech)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/anubhav-chaturvedi-/)
+[![GitHub](https://img.shields.io/badge/GitHub-mohithraj198--pixel-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/mohithraj198-pixel)
 
 If this project saved you time, a star on the repo helps other people find it.
