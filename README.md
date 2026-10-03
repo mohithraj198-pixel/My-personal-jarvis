@@ -1,6 +1,6 @@
-# J.A.R.V.I.S: Voice-Controlled AI Assistant in Python
+# 🤖 J.A.R.V.I.S: Personal Voice-Controlled AI Assistant
 
-> An offline-friendly, voice-activated AI desktop assistant that listens, thinks, speaks and controls your computer. Speech recognition, text to speech, real-time web search, image generation, computer vision and WhatsApp automation in one Python project.
+> An intelligent, voice-activated desktop AI assistant developed by **Mohith** in Python. J.A.R.V.I.S listens, understands natural commands, thinks, speaks in real-time, and automates your computer tasks effortlessly.
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
@@ -9,96 +9,130 @@
 
 ![J.A.R.V.I.S in action](https://github.com/user-attachments/assets/59727c15-d85a-41bc-b27d-bea08b3b3a41)
 
-## What it does
+---
 
-J.A.R.V.I.S (Just A Rather Very Intelligent System) is a Python voice assistant inspired by Iron Man. You speak, it understands the intent, runs the right module, and answers out loud. It is built as separate, swappable subsystems rather than one giant script, so you can use only the parts you need.
+## 🌟 Overview
 
-## Features
+**J.A.R.V.I.S (Just A Rather Very Intelligent System)** is a personal voice-controlled assistant built by **Mohith**, inspired by Iron Man's iconic AI. You speak naturally to it, and Jarvis understands the intent, executes system or web automation, and responds out loud with natural neural voice synthesis.
 
-| Module | What it gives you |
+It is designed with modular, swappable subsystems for maximum performance, offline reliability, and fast response times.
+
+---
+
+## ✨ Features & Capabilities
+
+| Subsystem | Description |
 |---|---|
-| `NetHyTechSTT` | Custom speech to text engine, no paid API required |
-| `TextToSpeech` | Natural spoken replies |
-| `Brain` / `co_brain.py` | Language model reasoning and conversation memory |
-| `Real_Time` | Live web search so answers are not limited to training data |
-| `TextToImage` | Generate images from a spoken prompt |
-| `Vision` | Camera capture and image understanding |
-| `Automation` | Open apps, control the desktop, run system tasks |
-| `Whatsapp_automation` | Send WhatsApp messages hands free |
-| `Weather_Check` | Live weather by location |
-| `Time_Operations` | Alarms, reminders and scheduling |
+| 🎙️ **Speech Recognition** | Real-time speech-to-text input with continuous listening |
+| 🗣️ **Neural Text-to-Speech** | Natural, human-like voice responses powered by neural TTS with offline fallback |
+| 🧠 **Brain & Reasoning** | LLM-powered conversational understanding and contextual memory |
+| 🌐 **Live Web Search** | Real-time web search for up-to-date news, information, and answers |
+| 🎨 **Image Generation** | AI image generation right from spoken voice prompts |
+| 👁️ **Computer Vision** | Camera capture and visual analysis |
+| ⚙️ **System Automation** | App launching, volume control, brightness adjustments, and process monitoring |
+| 💬 **WhatsApp Automation** | Send messages and open WhatsApp completely hands-free |
+| ⛅ **Weather Updates** | Live real-time weather reports for any city |
+| ⏰ **Time & Reminders** | Set alarms, reminders, and daily schedule management |
 
-## Getting started
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python 3.10 or newer
-- A working microphone and speakers
-- Google Chrome (used by the browser automation modules)
+- **Python 3.10** or newer
+- A working microphone and speakers/headphones
+- **Google Chrome** or **Microsoft Edge**
 
 ### Installation
 
-```bash
-git clone https://github.com/mohithraj198-pixel/My-personal-jarvis.git
-cd My-personal-jarvis
-pip install -r requirements.txt
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/mohithraj198-pixel/My-personal-jarvis.git
+   cd My-personal-jarvis
+   ```
 
-### Run it
+2. **Create and activate a virtual environment (recommended):**
+   ```bash
+   python -m venv venv
+   .\venv\Scripts\activate
+   ```
 
-```bash
-python jarvis.py
-```
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Prefer a window over a terminal:
+---
 
+## 🎯 How to Run
+
+### Option 1: Desktop Animated UI (Recommended)
 ```bash
 python ui.py
 ```
 
-## Usage
-
-Say the wake word, then speak naturally:
-
-- "What is the weather in Bangalore?"
-- "Open Microsoft edge and search for transformer architecture"
-- "Generate an image of a red sports car at sunset"
-- "Open whatsapp"
-- "What is happening in the news right now?"
-
-## Project structure
-
-```
-jarvis.py              entry point, intent routing
-ui.py                  desktop interface
-co_brain.py            reasoning and conversation memory
-NetHyTechSTT/          speech to text engine
-TextToSpeech/          voice output
-TextToImage/           image generation
-Real_Time/             live web search
-Vision/                camera and image understanding
-Automation/            desktop and app control
-Whatsapp_automation/   messaging
-Weather_Check/         weather lookups
-Time_Operations/       alarms and scheduling
+### Option 2: Terminal Mode
+```bash
+python jarvis.py
 ```
 
-## Tech stack
+---
 
-Python, SpeechRecognition, Selenium, PyWhatKit, OpenCV, Requests, Tkinter.
+## 🗣️ Voice Commands & Usage
 
-## Contributing
+Simply say the wake word or speak naturally into your microphone:
 
-Issues and pull requests are welcome. Fork the repo, create a feature branch, and open a PR describing what changed and why.
+- ⛅ *"What is the weather in Bangalore?"*
+- 🌐 *"Open Microsoft Edge and search for quantum computing"*
+- 🎨 *"Generate an image of a red sports car at sunset"*
+- 💬 *"Open WhatsApp"*
+- 📰 *"What is happening in the news right now?"*
+- ⏰ *"Set an alarm for 7:00 AM"*
+- 🔊 *"Increase the volume to 80 percent"*
 
-## License
+---
 
-Released under the [MIT License](LICENSE).
+## 📁 Project Structure
 
-## Author
+```
+My-personal-jarvis/
+├── jarvis.py              # Main entry point & intent routing
+├── ui.py                  # PyQt5 animated desktop interface
+├── co_brain.py            # Assistant reasoning & decision hub
+├── NetHyTechSTT/          # Speech-to-text engine
+├── TextToSpeech/          # Neural voice output engine
+├── Brain/                 # Conversational AI brain & memory
+├── Automation/            # Desktop, app, and system control
+├── Real_Time/             # Live web intelligence
+├── Vision/                # Camera & visual recognition
+├── TextToImage/           # Image generation module
+├── Whatsapp_automation/   # Messaging & chat automation
+├── Weather_Check/         # Real-time weather service
+└── Time_Operations/       # Alarms, timers, and scheduling
+```
 
-**Mohith** ([@mohithraj198-pixel](https://github.com/mohithraj198-pixel))
+---
 
-[![GitHub](https://img.shields.io/badge/GitHub-mohithraj198--pixel-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/mohithraj198-pixel)
+## 🛠️ Tech Stack
 
-If this project saved you time, a star on the repo helps other people find it.
+- **Core:** Python 3.10+
+- **GUI:** PyQt5
+- **Speech & Audio:** Edge-TTS, Pygame, PyAudio
+- **Web & Automation:** Selenium, PyAutoGUI, PyWhatKit, Requests
+- **Vision:** OpenCV
+
+---
+
+## 👤 Author
+
+Developed with ❤️ by **Mohith**
+
+- **GitHub:** [@mohithraj198-pixel](https://github.com/mohithraj198-pixel)
+- **Repository:** [My-personal-jarvis](https://github.com/mohithraj198-pixel/My-personal-jarvis)
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
