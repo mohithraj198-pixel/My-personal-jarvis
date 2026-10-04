@@ -2,7 +2,7 @@ import re
 import os
 import time
 from TextToSpeech.Fast_DF_TTS import speak
-from Automation.Automation_Brain import Auto_main_brain
+from Automation.Automation_Brain import Auto_main_brain, clear_file
 from Automation.open_App import open_App
 from Whatsapp_automation.wa import send_msg_wa
 from time_service import is_time_query, get_current_time_str
@@ -36,39 +36,94 @@ def clean_command(text: str) -> str:
 def parse_whatsapp_send(text: str):
     """
     Parse recipient and message from commands like:
+    - 'open whatsapp and send hi to Rahul'
+    - 'open whatsapp and send message to Kaushik'
     - 'send hi to Rahul on WhatsApp'
     - 'send a message to Kaushik'
     - 'send message to Rahul'
     - 'just message him hi Kaushik how are you'
+    - 'open whatsapp and send msg to anyone'
     """
     lower = text.lower().strip()
+    # Normalize common speech variations
+    lower = re.sub(r'\bwhats\s+app\b', 'whatsapp', lower)
+    lower = re.sub(r'\bsnd\s+msg\b', 'send message', lower)
+    lower = re.sub(r'\bsend\s+msg\b', 'send message', lower)
+    lower = re.sub(r'\bsnd\b', 'send', lower)
+    lower = re.sub(r'\bmsg\b', 'message', lower)
+    
+    # Strip leading wake words and trailing punctuation
+    lower = re.sub(r'^(?:hey\s+|hello\s+|hi\s+|ok\s+)?jarvis[,:\s]*', '', lower).strip()
+    lower = lower.rstrip('.?!').strip()
 
-    # Pattern 1: send <msg> to <recipient> (on whatsapp)
-    m1 = re.search(r'send\s+(?:message\s+|a\s+message\s+)?(.+?)\s+to\s+([a-zA-Z]+)(?:\s+on\s+whatsapp|$)', lower)
-    if m1:
-        msg = m1.group(1).strip()
-        recipient = m1.group(2).strip()
-        if msg in ["a message", "message", "msg"]:
-            return recipient.title(), ""
-        if msg and recipient and recipient != "whatsapp":
+    # Pattern A: (open whatsapp and) send (a) message to <recipient> that/saying <msg>
+    mA = re.search(r'(?:open\s+whatsapp\s+(?:and\s+)?)?send\s+(?:a\s+)?message\s+to\s+([a-zA-Z0-9_]+)\s+(?:that|saying)\s+(.+?)(?:\s+on\s+whatsapp)?$', lower)
+    if mA:
+        recipient = mA.group(1).strip()
+        msg = mA.group(2).strip()
+        if recipient not in ["whatsapp"]:
             return recipient.title(), msg
 
-    # Pattern 2: send (a) message to <recipient>
-    m2 = re.search(r'send\s+(?:a\s+)?message\s+to\s+([a-zA-Z]+)', lower)
-    if m2:
-        recipient = m2.group(1).strip()
-        if recipient and recipient != "whatsapp":
+    # Pattern B: (open whatsapp and) send (a) message to <recipient> <msg>
+    mB = re.search(r'(?:open\s+whatsapp\s+(?:and\s+)?)?send\s+(?:a\s+)?message\s+to\s+([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_].+?)$', lower)
+    if mB:
+        recipient = mB.group(1).strip()
+        msg = mB.group(2).strip()
+        msg = re.sub(r'^(?:that|saying)\s+', '', msg).strip()
+        msg = re.sub(r'\s+on\s+whatsapp$', '', msg).strip()
+        if msg in ["on whatsapp", "whatsapp"]:
+            msg = ""
+        if recipient not in ["whatsapp"]:
+            return recipient.title(), msg
+
+    # Pattern C: (open whatsapp and) send (a) message to <recipient> (no message)
+    mC = re.search(r'(?:open\s+whatsapp\s+(?:and\s+)?)?send\s+(?:a\s+)?message\s+to\s+([a-zA-Z0-9_\s]+?)(?:\s+on\s+whatsapp)?$', lower)
+    if mC:
+        recipient = mC.group(1).strip()
+        if recipient and recipient not in ["whatsapp"]:
             return recipient.title(), ""
 
-    # Pattern 3: (just) message <recipient> <msg>
-    m3 = re.search(r'(?:just\s+)?message\s+([a-zA-Z]+)\s*(.*)', lower)
-    if m3:
-        recipient = m3.group(1).strip()
-        msg = m3.group(2).strip()
+    # Pattern D: (open whatsapp and) send <msg> to <recipient> (on whatsapp)
+    mD = re.search(r'(?:open\s+whatsapp\s+(?:and\s+)?)?send\s+(.+?)\s+to\s+([a-zA-Z0-9_\s]+?)(?:\s+on\s+whatsapp)?$', lower)
+    if mD:
+        msg = mD.group(1).strip()
+        recipient = mD.group(2).strip()
+        if msg in ["a message", "message"]:
+            msg = ""
+        if recipient and recipient not in ["whatsapp"]:
+            return recipient.title(), msg
+
+    # Pattern E: (just) message <recipient> <msg>
+    mE = re.search(r'(?:open\s+whatsapp\s+(?:and\s+)?)?(?:just\s+)?message\s+([a-zA-Z0-9_]+)\s*(.*)', lower)
+    if mE:
+        recipient = mE.group(1).strip()
+        msg = mE.group(2).strip()
+        msg = re.sub(r'\s+on\s+whatsapp$', '', msg).strip()
         if recipient and recipient not in ["on", "to", "him", "her", "whatsapp"]:
             return recipient.title(), msg
 
+    # Pattern F: bare "open whatsapp and send message" or "send message on whatsapp"
+    if "send" in lower and "message" in lower:
+        return "", ""
+
     return None, None
+
+def listen_for_voice_reply(prompt: str, timeout: float = 7.0) -> str:
+    """Speak prompt and listen for user response from input.txt."""
+    speak(prompt)
+    clear_file()
+    start_time = time.time()
+    while (time.time() - start_time) < timeout:
+        time.sleep(0.3)
+        try:
+            with open("input.txt", "r", encoding="utf-8") as f:
+                content = f.read().strip()
+            if content:
+                clear_file()
+                return content
+        except Exception:
+            pass
+    return ""
 
 def parse_browser_search(text: str):
     """
@@ -216,6 +271,7 @@ def route_command(raw_text: str) -> bool:
     current_action = None
     current_result = None
     current_response = None
+    spoken_done = False
 
     try:
         # 1. Wake word only (e.g. "Jarvis", "Hey Jarvis")
@@ -225,23 +281,47 @@ def route_command(raw_text: str) -> bool:
             current_result = "Ready"
             current_response = "Yes, sir. How can I help you?"
 
-        # 2. WhatsApp Messaging Action
-        elif ("whatsapp" in clean_lower and ("send" in clean_lower or "message" in clean_lower)) or \
+        # 2. WhatsApp Messaging Action (e.g. "open whatsapp and send hi to rahul", "send message to kaushik on whatsapp")
+        elif ("whatsapp" in clean_lower and ("send" in clean_lower or "snd" in clean_lower or "message" in clean_lower or "msg" in clean_lower)) or \
              clean_lower.startswith("send a message") or clean_lower.startswith("send message") or \
+             clean_lower.startswith("snd message") or clean_lower.startswith("snd msg") or \
              clean_lower.startswith("message "):
             recipient, message = parse_whatsapp_send(clean_lower)
+            if not recipient and clean_lower != raw_lower:
+                recipient, message = parse_whatsapp_send(raw_lower)
+
             current_intent = "WHATSAPP"
             current_action = "send_whatsapp_message"
+
+            # Check if recipient is a generic word like "anyone", "someone", or missing
+            if not recipient or recipient.lower() in ["anyone", "anybody", "someone", "somebody"]:
+                spoken_recipient = listen_for_voice_reply("Who would you like to message on WhatsApp, sir?", timeout=7.0)
+                if spoken_recipient:
+                    recipient = spoken_recipient.strip().title()
+                else:
+                    recipient = ""
+
+            # If recipient is known but message is missing, ask for the message
+            if recipient and not message:
+                spoken_msg = listen_for_voice_reply(f"What is the message for {recipient}, sir?", timeout=8.0)
+                if spoken_msg:
+                    message = spoken_msg.strip()
+
             if recipient:
                 if message:
-                    current_response = f"Understood, sir. Preparing to send '{message}' to {recipient} on WhatsApp."
+                    current_response = f"Sending '{message}' to {recipient} on WhatsApp."
                 else:
-                    current_response = f"Understood, sir. Opening WhatsApp message for {recipient}."
+                    current_response = f"Opening chat with {recipient} on WhatsApp."
             else:
-                current_response = "Understood, sir. Opening WhatsApp messaging."
-            current_result = "Success"
+                current_response = "Opening WhatsApp Desktop, sir."
+
+            # Provide immediate verbal feedback before starting GUI automation
+            speak(current_response)
+            spoken_done = True
+
             try:
-                send_msg_wa()
+                success = send_msg_wa(recipient=recipient or "", message=message or "")
+                current_result = "Success" if success else "Failed"
             except Exception as e:
                 current_result = f"Error: {e}"
 
@@ -402,8 +482,9 @@ def route_command(raw_text: str) -> bool:
         except Exception:
             pass
 
-        # Speak the response ONCE
-        speak(current_response)
+        # Speak the response ONCE (unless already spoken prior to action)
+        if current_response and not spoken_done:
+            speak(current_response)
 
         safe_print(f"[TASK] Complete")
         safe_print(f"[LISTENING] Waiting for Jarvis\n")

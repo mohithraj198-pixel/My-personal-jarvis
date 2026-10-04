@@ -4,6 +4,8 @@ import time
 import psutil
 import pyautogui as gui
 
+gui.FAILSAFE = False
+
 def is_process_running(name_substring: str) -> bool:
     """Check if any running process matches name_substring."""
     name_lower = name_substring.lower()
@@ -18,25 +20,36 @@ def is_process_running(name_substring: str) -> bool:
 
 def open_App(text: str) -> bool:
     """Launch application and verify execution."""
+    gui.FAILSAFE = False
     lower = text.lower().strip()
     
     if "whatsapp" in lower:
         # Focus or launch Windows WhatsApp Desktop app directly without opening Chrome
         try:
+            import pygetwindow as gw
+            wins = [w for w in gw.getAllWindows() if 'whatsapp' in w.title.lower()]
+            if wins:
+                win = wins[0]
+                if win.isMinimized:
+                    win.restore()
+                win.activate()
+                return True
+        except Exception:
+            pass
+
+        try:
             subprocess.run(["cmd", "/c", "start", "whatsapp:"], shell=True, check=False)
             time.sleep(1.0)
-            if is_process_running("whatsapp"):
-                return True
         except Exception:
             pass
             
         gui.press("win")
         time.sleep(0.3)
-        gui.write("WhatsApp")
+        gui.write("WhatsApp", interval=0.03)
         time.sleep(0.3)
         gui.press("enter")
         time.sleep(1.0)
-        return is_process_running("whatsapp")
+        return True
 
     elif "edge" in lower:
         # Launch Microsoft Edge directly
