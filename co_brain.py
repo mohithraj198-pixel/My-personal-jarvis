@@ -1,6 +1,6 @@
 from Automation.Automation_Brain import Auto_main_brain,clear_file
 from NetHyTechSTT.listen import listen
-from TextToSpeech.Fast_DF_TTS import speak
+from TextToSpeech.Fast_DF_TTS import speak, is_speaking
 import threading
 import time
 from Data.DLG_Data import online_dlg,offline_dlg
@@ -20,6 +20,7 @@ from Features.br_persentage import check_br_persentage
 from Features.set_br import set_brightness_windows
 from Features.set_get_volume import *
 from Features.check_running_app import *
+from command_router import route_command
 
 numbers = ["1:","2:","3:","4:","5:","6:","7:","8:","9:"]
 spl_numbers = ["11:","12:"]
@@ -29,8 +30,13 @@ ran_offline_dlg = random.choice(offline_dlg)
 
 def check_inputs():
     while True:
+        if is_speaking():
+            clear_file()
+            time.sleep(0.1)
+            continue
+
         try:
-            with open("input.txt","r") as file:
+            with open("input.txt","r", encoding="utf-8") as file:
                 input_text = file.read().lower().strip() 
         except Exception:
             input_text = ""
@@ -38,6 +44,14 @@ def check_inputs():
         if input_text:
             output_text = input_text
             clear_file()
+            
+            current_command = output_text
+            try:
+                if route_command(current_command):
+                    time.sleep(0.2)
+                    continue
+            finally:
+                current_command = None
             if output_text.startswith("tell me"):
                 output_text = output_text.replace(" p.m.","PM")
                 output_text = output_text.replace(" a.m.","AM")

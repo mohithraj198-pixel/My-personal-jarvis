@@ -3,6 +3,14 @@ __pycache__/
 *$py.class
 venv/
 .env
+.env.*
+!.env.example
 *.mp3
 speech_temp*
 .vscode/
+*.log
+log.txt
+input.txt
+captured_image.png
+Alam_data.txt
+schedule.txt

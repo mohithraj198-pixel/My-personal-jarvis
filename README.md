@@ -97,9 +97,15 @@ Simply say the wake word or speak naturally into your microphone:
 
 ```
 My-personal-jarvis/
-├── jarvis.py              # Main entry point & intent routing
+├── jarvis.py              # Main entry point & thread lifecycle
 ├── ui.py                  # PyQt5 animated desktop interface
-├── co_brain.py            # Assistant reasoning & decision hub
+├── co_brain.py            # Input polling & automation dispatch
+├── command_router.py      # Natural language intent & command router
+├── news_service.py        # Live news retrieval via DDGS
+├── search_service.py      # Keyless web search & summarization via DDGS
+├── time_service.py        # Real-time clock & natural time TTS
+├── weather_service.py     # Live weather, rainfall & wind reporting
+├── project_service.py     # Multi-turn project knowledge & tech analysis
 ├── NetHyTechSTT/          # Speech-to-text engine
 ├── TextToSpeech/          # Neural voice output engine
 ├── Brain/                 # Conversational AI brain & memory
@@ -108,7 +114,7 @@ My-personal-jarvis/
 ├── Vision/                # Camera & visual recognition
 ├── TextToImage/           # Image generation module
 ├── Whatsapp_automation/   # Messaging & chat automation
-├── Weather_Check/         # Real-time weather service
+├── Weather_Check/         # Legacy weather check module
 └── Time_Operations/       # Alarms, timers, and scheduling
 ```
 

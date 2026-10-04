@@ -43,3 +43,6 @@ pygame
 PyQt5
 nltk
 edge-tts
+python-dotenv
+ddgs
+groq
