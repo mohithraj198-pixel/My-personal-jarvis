@@ -1,8 +1,19 @@
 import numpy as np
 import pyaudio
 import time
-from scipy import signal 
 from TextToSpeech.Fast_DF_TTS import speak
+
+def _log_chirp(t, f0, t1, f1):
+    """
+    Pure NumPy logarithmic frequency sweep.
+    Exact replacement for scipy.signal.chirp(t, f0, t1, f1, method='logarithmic')
+    without requiring SciPy C-extension DLLs.
+    """
+    if f0 == f1:
+        return np.cos(2 * np.pi * f0 * t)
+    beta = t1 / np.log(f1 / f0)
+    phase = 2 * np.pi * beta * f0 * (np.power(f1 / f0, t / t1) - 1.0)
+    return np.cos(phase)
 
 def play_tone(frequency, duration=2, volume=0.5, sample_rate=44100):
     """
@@ -38,7 +49,7 @@ def play_sweep(duration=5, volume=0.5, sample_rate=44100, start_freq=20, end_fre
     Useful for testing the full frequency range of the speaker.
     """
     t = np.linspace(0, duration, int(sample_rate * duration), False)
-    sweep = signal.chirp(t, start_freq, t[-1], end_freq, method='logarithmic')
+    sweep = _log_chirp(t, start_freq, t[-1], end_freq)
 
     # Ensure the sweep is in the correct format
     audio_data = (sweep * volume * 32767).astype(np.int16)
